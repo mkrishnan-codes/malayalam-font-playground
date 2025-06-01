@@ -77,6 +77,27 @@
             border-radius: 8px;
             margin-top: 20px;
             outline: none;
+            display: flex;
+            min-height: 300px;
+        }
+
+        /* Add alignment classes */
+        .align-left { justify-content: flex-start; }
+        .align-center { justify-content: center; }
+        .align-right { justify-content: flex-end; }
+        
+        .align-top { align-items: flex-start; }
+        .align-middle { align-items: center; }
+        .align-bottom { align-items: flex-end; }
+
+        /* Style for alignment button groups */
+        .alignment-buttons {
+            display: flex;
+            gap: 2px;
+        }
+
+        .alignment-buttons button {
+            padding: 8px 12px;
         }
 
         /* Add cursor hiding class */
@@ -196,7 +217,25 @@
 
         <!-- Add screenshot button -->
         <div class="control-group">
-            <button id="screenshot-button">Take Screenshot</button>
+            <button id="screenshot-button">Download Text as image</button>
+        </div>
+
+        <div class="control-group">
+            <label>Align:</label>
+            <div class="alignment-buttons">
+                <button id="align-left" title="Align Left">⇤</button>
+                <button id="align-center" title="Align Center">⇔</button>
+                <button id="align-right" title="Align Right">⇥</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Vertical:</label>
+            <div class="alignment-buttons">
+                <button id="align-top" title="Align Top">⇧</button>
+                <button id="align-middle" title="Align Middle">↕</button>
+                <button id="align-bottom" title="Align Bottom">⇩</button>
+            </div>
         </div>
     </div>
 
@@ -220,6 +259,14 @@
         const screenshotButton = document.getElementById('screenshot-button');
         const fontColorHex = document.getElementById('font-color-hex');
         const bgColorHex = document.getElementById('bg-color-hex');
+
+        // Get alignment buttons
+        const alignLeft = document.getElementById('align-left');
+        const alignCenter = document.getElementById('align-center');
+        const alignRight = document.getElementById('align-right');
+        const alignTop = document.getElementById('align-top');
+        const alignMiddle = document.getElementById('align-middle');
+        const alignBottom = document.getElementById('align-bottom');
 
         // Default values
         const defaults = {
@@ -301,6 +348,50 @@
             }
         });
 
+        // Horizontal alignment
+        alignLeft.addEventListener('click', () => {
+            textDisplay.classList.remove('align-center', 'align-right');
+            textDisplay.classList.add('align-left');
+            updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
+        });
+
+        alignCenter.addEventListener('click', () => {
+            textDisplay.classList.remove('align-left', 'align-right');
+            textDisplay.classList.add('align-center');
+            updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
+        });
+
+        alignRight.addEventListener('click', () => {
+            textDisplay.classList.remove('align-left', 'align-center');
+            textDisplay.classList.add('align-right');
+            updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
+        });
+
+        // Vertical alignment
+        alignTop.addEventListener('click', () => {
+            textDisplay.classList.remove('align-middle', 'align-bottom');
+            textDisplay.classList.add('align-top');
+            updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
+        });
+
+        alignMiddle.addEventListener('click', () => {
+            textDisplay.classList.remove('align-top', 'align-bottom');
+            textDisplay.classList.add('align-middle');
+            updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
+        });
+
+        alignBottom.addEventListener('click', () => {
+            textDisplay.classList.remove('align-top', 'align-middle');
+            textDisplay.classList.add('align-bottom');
+            updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
+        });
+
+        // Helper function to update active button state
+        function updateActiveButton(buttons, activeButton) {
+            buttons.forEach(button => button.classList.remove('active'));
+            activeButton.classList.add('active');
+        }
+
         // Reset function
         function resetStyles() {
             fontSelect.value = defaults.font;
@@ -320,6 +411,17 @@
             cursorToggle.textContent = 'Hide Cursor';
             cursorToggle.classList.remove('active');
             
+            // Reset alignments
+            textDisplay.classList.remove(
+                'align-left', 'align-center', 'align-right',
+                'align-top', 'align-middle', 'align-bottom'
+            );
+            textDisplay.classList.add('align-left', 'align-top');
+            
+            // Reset alignment buttons
+            updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
+            updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
+            
             // Update display
             updateTextStyle();
             fontColorHex.value = defaults.color;
@@ -331,6 +433,9 @@
 
         // Initialize
         updateTextStyle();
+        textDisplay.classList.add('align-left', 'align-top');
+        alignLeft.classList.add('active');
+        alignTop.classList.add('active');
     </script>
 </body>
 </html>
