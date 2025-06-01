@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malayalam Font Playground</title>
+    
+    <!-- Import fonts -->
+    <style>
+        @import url('https://smc.org.in/fonts/gayathri.css');
+        @import url('https://smc.org.in/fonts/malini.css');
+        @import url('https://smc.org.in/fonts/manjari.css');
+        @import url('https://smc.org.in/fonts/nupuram.css');
+        @import url('https://smc.org.in/fonts/uroob.css');
+        @import url('https://smc.org.in/fonts/nupuram-arrows-color.css');
+        @import url('https://smc.org.in/fonts/nupuram-calligraphy.css');
+        @import url('https://smc.org.in/fonts/nupuram-color.css');
+        @import url('https://smc.org.in/fonts/keraleeyam.css');
+        @import url('https://smc.org.in/fonts/chilanka.css');
+        @import url('https://smc.org.in/fonts/dyuthi.css');
+        @import url('https://smc.org.in/fonts/karumbi.css');
+        @import url('https://smc.org.in/fonts/rachana.css');
+        @import url('https://smc.org.in/fonts/raghumalayalamsans.css');
+        @import url('https://smc.org.in/fonts/suruma.css');
+
+
+
+        body {
+            margin: 20px;
+            font-family: 'Gayathri', sans-serif;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        select, input, button {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Add styles for color inputs */
+        input[type="color"] {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Container for color inputs to show border */
+        .color-input-container {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 2px;
+            background: #fff;
+        }
+
+        .text-area {
+            min-height: 200px;
+            padding: 20px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            outline: none;
+        }
+
+        /* Add cursor hiding class */
+        .hide-cursor {
+            caret-color: transparent;
+        }
+
+        /* Optional: only show a subtle border when focused for better UX */
+        .text-area:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        button.active {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+
+    <!-- Add html2canvas library -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <h1>Malayalam Fonts Playground <a href="https://smc.org.in">Taken from SMC</a></h1>
+    <div class="controls">
+        <div class="control-group">
+            <label for="font-family">Font:</label>
+            <select id="font-family">
+                <option value="Karumbi" selected>Karumbi</option>
+                <option value="Gayathri">Gayathri</option>
+                <option value="Malini">Malini</option>
+                <option value="Manjari">Manjari</option>
+                <option value="Nupuram">Nupuram</option>
+                <option value="Uroob">Uroob</option>
+                <option value="Nupuram-Arrows-Color">Nupuram Arrows Color</option>
+                <option value="Nupuram-Calligraphy">Nupuram Calligraphy</option>
+                <option value="Nupuram-Color">Nupuram Color</option>
+                <option value="Keraleeyam">Keraleeyam</option>
+                <option value="Chilanka">Chilanka</option>
+                <option value="Dyuthi">Dyuthi</option>
+                <option value="Rachana">Rachana</option>
+                <option value="RaghuMalayalamSans">Raghu Malayalam Sans</option>
+                <option value="Suruma">Suruma</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="font-size">Size:</label>
+            <input type="number" id="font-size" value="16" min="8" max="200">
+        </div>
+
+        <div class="control-group">
+            <label for="font-color">Color:</label>
+            <div class="color-input-container">
+                <input type="color" id="font-color" value="#000000">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="font-weight">Weight:</label>
+            <select id="font-weight">
+                <option value="normal">Normal</option>
+                <option value="bold">Bold</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <button id="italic-toggle">Italic</button>
+        </div>
+
+        <!-- Add background color control -->
+        <div class="control-group">
+            <label for="bg-color">Background:</label>
+            <div class="color-input-container">
+                <input type="color" id="bg-color" value="#ffffff">
+            </div>
+        </div>
+
+        <!-- Add reset button -->
+        <div class="control-group">
+            <button id="reset-button">Reset</button>
+        </div>
+
+        <!-- Add cursor toggle button -->
+        <div class="control-group">
+            <button id="cursor-toggle">Hide Cursor</button>
+        </div>
+
+        <!-- Add screenshot button -->
+        <div class="control-group">
+            <button id="screenshot-button">Take Screenshot</button>
+        </div>
+    </div>
+
+    <div id="text-display" class="text-area" contenteditable="true"
+    placeholder="Type or paste your Malayalam text here..."
+    >
+    </div>
+
+    <script>
+        // Get all control elements
+        const fontSelect = document.getElementById('font-family');
+        const fontSize = document.getElementById('font-size');
+        const fontColor = document.getElementById('font-color');
+        const fontWeight = document.getElementById('font-weight');
+        const italicToggle = document.getElementById('italic-toggle');
+        const bgColor = document.getElementById('bg-color');
+        const textDisplay = document.getElementById('text-display');
+        const resetButton = document.getElementById('reset-button');
+        const cursorToggle = document.getElementById('cursor-toggle');
+        const screenshotButton = document.getElementById('screenshot-button');
+
+        // Default values
+        const defaults = {
+            font: 'Karumbi',
+            size: '16',
+            color: '#000000',
+            weight: 'normal',
+            italic: false,
+            background: '#ffffff'
+        };
+
+        // Update text styling function
+        function updateTextStyle() {
+            textDisplay.style.fontFamily = fontSelect.value;
+            textDisplay.style.fontSize = fontSize.value + 'px';
+            textDisplay.style.color = fontColor.value;
+            textDisplay.style.fontWeight = fontWeight.value;
+            textDisplay.style.backgroundColor = bgColor.value;
+        }
+
+        // Add event listeners
+        fontSelect.addEventListener('change', updateTextStyle);
+        fontSize.addEventListener('input', updateTextStyle);
+        fontColor.addEventListener('input', updateTextStyle);
+        fontWeight.addEventListener('change', updateTextStyle);
+        bgColor.addEventListener('input', updateTextStyle);
+
+        // Toggle italic
+        let isItalic = false;
+        italicToggle.addEventListener('click', () => {
+            isItalic = !isItalic;
+            textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
+            italicToggle.classList.toggle('active');
+        });
+
+        // Cursor toggle functionality
+        let isCursorVisible = true;
+        cursorToggle.addEventListener('click', () => {
+            isCursorVisible = !isCursorVisible;
+            textDisplay.classList.toggle('hide-cursor');
+            cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
+            cursorToggle.classList.toggle('active');
+        });
+
+        // Screenshot functionality
+        screenshotButton.addEventListener('click', () => {
+            html2canvas(textDisplay, {
+                backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
+                scale: 2  // For better quality
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'malayalam-text.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        // Reset function
+        function resetStyles() {
+            fontSelect.value = defaults.font;
+            fontSize.value = defaults.size;
+            fontColor.value = defaults.color;
+            fontWeight.value = defaults.weight;
+            bgColor.value = defaults.background;
+            
+            // Reset italic
+            isItalic = defaults.italic;
+            textDisplay.style.fontStyle = 'normal';
+            italicToggle.classList.remove('active');
+            
+            // Reset cursor visibility
+            isCursorVisible = true;
+            textDisplay.classList.remove('hide-cursor');
+            cursorToggle.textContent = 'Hide Cursor';
+            cursorToggle.classList.remove('active');
+            
+            // Update display
+            updateTextStyle();
+        }
+
+        // Add reset button event listener
+        resetButton.addEventListener('click', resetStyles);
+
+        // Initialize
+        updateTextStyle();
+    </script>
+</body>
+</html>
