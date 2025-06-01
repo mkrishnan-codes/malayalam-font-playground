@@ -1,212 +1,183 @@
-  // Get all control elements
-  const fontSelect = document.getElementById('font-family');
-  const fontSize = document.getElementById('font-size');
-  const fontColor = document.getElementById('font-color');
-  const fontWeight = document.getElementById('font-weight');
-  const italicToggle = document.getElementById('italic-toggle');
-  const bgColor = document.getElementById('bg-color');
-  const textDisplay = document.getElementById('text-display');
-  const resetButton = document.getElementById('reset-button');
-  const cursorToggle = document.getElementById('cursor-toggle');
-  const screenshotButton = document.getElementById('screenshot-button');
-  const fontColorHex = document.getElementById('font-color-hex');
-  const bgColorHex = document.getElementById('bg-color-hex');
+// Get all control elements
+const fontSelect = document.getElementById('font-family');
+const fontSize = document.getElementById('font-size');
+const fontColor = document.getElementById('font-color');
+const fontWeight = document.getElementById('font-weight');
+const italicToggle = document.getElementById('italic-toggle');
+const bgColor = document.getElementById('bg-color');
+const textDisplay = document.getElementById('text-display');
+const resetButton = document.getElementById('reset-button');
+const cursorToggle = document.getElementById('cursor-toggle');
+const screenshotButton = document.getElementById('screenshot-button');
+const fontColorHex = document.getElementById('font-color-hex');
+const bgColorHex = document.getElementById('bg-color-hex');
 
-  // Get alignment buttons
-  const alignLeft = document.getElementById('align-left');
-  const alignCenter = document.getElementById('align-center');
-  const alignRight = document.getElementById('align-right');
-  const alignTop = document.getElementById('align-top');
-  const alignMiddle = document.getElementById('align-middle');
-  const alignBottom = document.getElementById('align-bottom');
+// Get alignment buttons
+const alignLeft = document.getElementById('align-left');
+const alignCenter = document.getElementById('align-center');
+const alignRight = document.getElementById('align-right');
+const alignTop = document.getElementById('align-top');
+const alignMiddle = document.getElementById('align-middle');
+const alignBottom = document.getElementById('align-bottom');
 
-  // Default values
-  const defaults = {
-      font: 'Karumbi',
-      size: '24',
-      color: '#000000',
-      weight: 'normal',
-      italic: false,
-      background: '#ffffff'
-  };
+// Get size mode buttons
+const squareButton = document.getElementById('square-button');
+const landscapeButton = document.getElementById('landscape-button');
+const portraitButton = document.getElementById('portrait-button');
 
-  // Update text styling function
-  function updateTextStyle() {
-      textDisplay.style.fontFamily = fontSelect.value;
-      textDisplay.style.fontSize = fontSize.value + 'px';
-      textDisplay.style.color = fontColor.value;
-      textDisplay.style.fontWeight = fontWeight.value;
-      textDisplay.style.backgroundColor = bgColor.value;
-  }
+// Default values
+const defaults = {
+    font: 'Karumbi',
+    size: '24',
+    color: '#000000',
+    weight: 'normal',
+    italic: false,
+    background: '#ffffff'
+};
 
-  // Add event listeners
-  fontSelect.addEventListener('change', updateTextStyle);
-  fontSize.addEventListener('input', updateTextStyle);
-  fontColor.addEventListener('input', (e) => {
-      fontColorHex.value = e.target.value;
-      updateTextStyle();
-  });
-  fontWeight.addEventListener('change', updateTextStyle);
-  bgColor.addEventListener('input', (e) => {
-      bgColorHex.value = e.target.value;
-      updateTextStyle();
-  });
+let isItalic = false;
+let isCursorVisible = true;
 
-  // Toggle italic
-  let isItalic = false;
-  italicToggle.addEventListener('click', () => {
-      isItalic = !isItalic;
-      textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
-      italicToggle.classList.toggle('active');
-  });
+// Basic update function
+function updateTextStyle() {
+    textDisplay.style.fontFamily = fontSelect.value;
+    textDisplay.style.fontSize = fontSize.value + 'px';
+    textDisplay.style.color = fontColor.value;
+    textDisplay.style.fontWeight = fontWeight.value;
+    textDisplay.style.backgroundColor = bgColor.value;
+    textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
+}
 
-  // Cursor toggle functionality
-  let isCursorVisible = true;
-  cursorToggle.addEventListener('click', () => {
-      isCursorVisible = !isCursorVisible;
-      textDisplay.classList.toggle('hide-cursor');
-      cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
-      cursorToggle.classList.toggle('active');
-  });
+// Basic event listeners
+fontSelect.addEventListener('change', updateTextStyle);
+fontSize.addEventListener('input', updateTextStyle);
+fontWeight.addEventListener('change', updateTextStyle);
 
-  // Screenshot functionality
-  screenshotButton.addEventListener('click', () => {
-      // Generate random 4-letter string
-      const randomPrefix = Math.random().toString(36).substring(2, 6);
-      
-      html2canvas(textDisplay, {
-          backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
-          scale: 2  // For better quality
-      }).then(canvas => {
-          const link = document.createElement('a');
-          link.download = `${randomPrefix}-malayalam-text.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-      });
-  });
+fontColor.addEventListener('input', (e) => {
+    fontColorHex.value = e.target.value;
+    updateTextStyle();
+});
 
-  // Update hex inputs when color pickers change
-  fontColorHex.addEventListener('input', (e) => {
-      if (e.target.checkValidity()) {
-          fontColor.value = e.target.value;
-          updateTextStyle();
-      }
-  });
+bgColor.addEventListener('input', (e) => {
+    bgColorHex.value = e.target.value;
+    updateTextStyle();
+});
 
-  bgColorHex.addEventListener('input', (e) => {
-      if (e.target.checkValidity()) {
-          bgColor.value = e.target.value;
-          updateTextStyle();
-      }
-  });
+// Toggle italic
+italicToggle.addEventListener('click', () => {
+    isItalic = !isItalic;
+    italicToggle.classList.toggle('active');
+    updateTextStyle();
+});
 
-  // Horizontal alignment
-  alignLeft.addEventListener('click', () => {
-      textDisplay.classList.remove('align-center', 'align-right');
-      textDisplay.classList.add('align-left');
-      updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
-  });
+// Cursor toggle
+cursorToggle.addEventListener('click', () => {
+    isCursorVisible = !isCursorVisible;
+    textDisplay.classList.toggle('hide-cursor');
+    cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
+    cursorToggle.classList.toggle('active');
+});
 
-  alignCenter.addEventListener('click', () => {
-      textDisplay.classList.remove('align-left', 'align-right');
-      textDisplay.classList.add('align-center');
-      updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
-  });
+// Size modes
+function setSizeMode(mode) {
+    switch(mode) {
+        case 'square':
+            textDisplay.style.height = '800px';
+            textDisplay.style.width = '800px';
+            break;
+        case 'landscape':
+            textDisplay.style.height = '800px';
+            textDisplay.style.width = '1200px';
+            break;
+        case 'portrait':
+            textDisplay.style.height = '1200px';
+            textDisplay.style.width = '800px';
+            break;
+    }
+    updateActiveButton([squareButton, landscapeButton, portraitButton], 
+        document.getElementById(`${mode}-button`));
+}
 
-  alignRight.addEventListener('click', () => {
-      textDisplay.classList.remove('align-left', 'align-center');
-      textDisplay.classList.add('align-right');
-      updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
-  });
+squareButton.addEventListener('click', () => setSizeMode('square'));
+landscapeButton.addEventListener('click', () => setSizeMode('landscape'));
+portraitButton.addEventListener('click', () => setSizeMode('portrait'));
 
-  // Vertical alignment
-  alignTop.addEventListener('click', () => {
-      textDisplay.classList.remove('align-middle', 'align-bottom');
-      textDisplay.classList.add('align-top');
-      updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
-  });
+// Alignment functions
+function updateActiveButton(buttons, activeButton) {
+    buttons.forEach(button => button.classList.remove('active'));
+    activeButton.classList.add('active');
+}
 
-  alignMiddle.addEventListener('click', () => {
-      textDisplay.classList.remove('align-top', 'align-bottom');
-      textDisplay.classList.add('align-middle');
-      updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
-  });
+alignLeft.addEventListener('click', () => {
+    textDisplay.classList.remove('align-center', 'align-right');
+    textDisplay.classList.add('align-left');
+    updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
+});
 
-  alignBottom.addEventListener('click', () => {
-      textDisplay.classList.remove('align-top', 'align-middle');
-      textDisplay.classList.add('align-bottom');
-      updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
-  });
+alignCenter.addEventListener('click', () => {
+    textDisplay.classList.remove('align-left', 'align-right');
+    textDisplay.classList.add('align-center');
+    updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
+});
 
-  // Helper function to update active button state
-  function updateActiveButton(buttons, activeButton) {
-      buttons.forEach(button => button.classList.remove('active'));
-      activeButton.classList.add('active');
-  }
+alignRight.addEventListener('click', () => {
+    textDisplay.classList.remove('align-left', 'align-center');
+    textDisplay.classList.add('align-right');
+    updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
+});
 
-  // Reset function
-  function resetStyles() {
-      fontSelect.value = defaults.font;
-      fontSize.value = defaults.size;
-      fontColor.value = defaults.color;
-      fontWeight.value = defaults.weight;
-      bgColor.value = defaults.background;
-      
-      // Reset italic
-      isItalic = defaults.italic;
-      textDisplay.style.fontStyle = 'normal';
-      italicToggle.classList.remove('active');
-      
-      // Reset cursor visibility
-      isCursorVisible = true;
-      textDisplay.classList.remove('hide-cursor');
-      cursorToggle.textContent = 'Hide Cursor';
-      cursorToggle.classList.remove('active');
-      
-      // Reset alignments
-      textDisplay.classList.remove(
-          'align-left', 'align-center', 'align-right',
-          'align-top', 'align-middle', 'align-bottom'
-      );
-      textDisplay.classList.add('align-left', 'align-top');
-      
-      // Reset alignment buttons
-      updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
-      updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
-      
-      // Update display
-      updateTextStyle();
-      fontColorHex.value = defaults.color;
-      bgColorHex.value = defaults.background;
-  }
+alignTop.addEventListener('click', () => {
+    textDisplay.classList.remove('align-middle', 'align-bottom');
+    textDisplay.classList.add('align-top');
+    updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
+});
 
-  // Add reset button event listener
-  resetButton.addEventListener('click', resetStyles);
+alignMiddle.addEventListener('click', () => {
+    textDisplay.classList.remove('align-top', 'align-bottom');
+    textDisplay.classList.add('align-middle');
+    updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
+});
 
-  // Add text display container sizing
-  function initializeTextDisplay() {
-      // Set initial dimensions
-      textDisplay.style.minHeight = '200px';  // Minimum starting height
-      textDisplay.style.maxHeight = '2800px';  // Maximum height
-      textDisplay.style.width = '95vw';       // 90% of viewport width
-      textDisplay.style.maxWidth = '1500px';  // Maximum width
-      
-      // Make text display auto-expandable
-      textDisplay.addEventListener('input', function() {
-          this.style.height = 'auto';
-          const newHeight = Math.min(Math.max(this.scrollHeight, 200), 2800);
-          this.style.height = newHeight + 'px';
-      });
-  }
+alignBottom.addEventListener('click', () => {
+    textDisplay.classList.remove('align-top', 'align-middle');
+    textDisplay.classList.add('align-bottom');
+    updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
+});
 
-  // Add to initialization
-  function initialize() {
-      updateTextStyle();
-      initializeTextDisplay();
-      textDisplay.classList.add('align-left', 'align-top');
-      alignLeft.classList.add('active');
-      alignTop.classList.add('active');
-  }
+// Reset function
+resetButton.addEventListener('click', () => {
+    fontSelect.value = defaults.font;
+    fontSize.value = defaults.size;
+    fontColor.value = defaults.color;
+    fontWeight.value = defaults.weight;
+    bgColor.value = defaults.background;
+    isItalic = false;
+    italicToggle.classList.remove('active');
+    textDisplay.classList.remove('hide-cursor');
+    cursorToggle.textContent = 'Hide Cursor';
+    cursorToggle.classList.remove('active');
+    setSizeMode('square');
+    updateTextStyle();
+});
 
-  // Call initialize instead of individual functions
-  initialize();
+// Screenshot functionality
+screenshotButton.addEventListener('click', () => {
+    const randomPrefix = Math.random().toString(36).substring(2, 6);
+    html2canvas(textDisplay, {
+        backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
+        scale: 2.5,
+        useCORS: true,
+        logging: false
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `${randomPrefix}-malayalam-text.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+    });
+});
+
+// Initialize
+window.addEventListener('load', () => {
+    setSizeMode('square');
+    updateTextStyle();
+});
