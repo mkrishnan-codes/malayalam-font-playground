@@ -94,6 +94,19 @@
             background: #007bff;
             color: white;
         }
+
+        /* Add styles for hex input */
+        input[type="text"].hex-input {
+            width: 80px;
+            margin-left: 5px;
+            font-family: monospace;
+        }
+
+        .color-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 
     <!-- Add html2canvas library -->
@@ -130,8 +143,16 @@
 
         <div class="control-group">
             <label for="font-color">Color:</label>
-            <div class="color-input-container">
-                <input type="color" id="font-color" value="#000000">
+            <div class="color-group">
+                <div class="color-input-container">
+                    <input type="color" id="font-color" value="#2C3E50">
+                </div>
+                <input type="text" 
+                    id="font-color-hex" 
+                    class="hex-input" 
+                    value="#2C3E50" 
+                    pattern="^#[0-9A-Fa-f]{6}$"
+                    title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
 
@@ -150,8 +171,16 @@
         <!-- Add background color control -->
         <div class="control-group">
             <label for="bg-color">Background:</label>
-            <div class="color-input-container">
-                <input type="color" id="bg-color" value="#ffffff">
+            <div class="color-group">
+                <div class="color-input-container">
+                    <input type="color" id="bg-color" value="#FAF9F6">
+                </div>
+                <input type="text" 
+                    id="bg-color-hex" 
+                    class="hex-input" 
+                    value="#FAF9F6" 
+                    pattern="^#[0-9A-Fa-f]{6}$"
+                    title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
 
@@ -189,6 +218,8 @@
         const resetButton = document.getElementById('reset-button');
         const cursorToggle = document.getElementById('cursor-toggle');
         const screenshotButton = document.getElementById('screenshot-button');
+        const fontColorHex = document.getElementById('font-color-hex');
+        const bgColorHex = document.getElementById('bg-color-hex');
 
         // Default values
         const defaults = {
@@ -212,9 +243,15 @@
         // Add event listeners
         fontSelect.addEventListener('change', updateTextStyle);
         fontSize.addEventListener('input', updateTextStyle);
-        fontColor.addEventListener('input', updateTextStyle);
+        fontColor.addEventListener('input', (e) => {
+            fontColorHex.value = e.target.value;
+            updateTextStyle();
+        });
         fontWeight.addEventListener('change', updateTextStyle);
-        bgColor.addEventListener('input', updateTextStyle);
+        bgColor.addEventListener('input', (e) => {
+            bgColorHex.value = e.target.value;
+            updateTextStyle();
+        });
 
         // Toggle italic
         let isItalic = false;
@@ -235,15 +272,33 @@
 
         // Screenshot functionality
         screenshotButton.addEventListener('click', () => {
+            // Generate random 4-letter string
+            const randomPrefix = Math.random().toString(36).substring(2, 6);
+            
             html2canvas(textDisplay, {
                 backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
                 scale: 2  // For better quality
             }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = 'malayalam-text.png';
+                link.download = `${randomPrefix}-malayalam-text.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
+        });
+
+        // Update hex inputs when color pickers change
+        fontColorHex.addEventListener('input', (e) => {
+            if (e.target.checkValidity()) {
+                fontColor.value = e.target.value;
+                updateTextStyle();
+            }
+        });
+
+        bgColorHex.addEventListener('input', (e) => {
+            if (e.target.checkValidity()) {
+                bgColor.value = e.target.value;
+                updateTextStyle();
+            }
         });
 
         // Reset function
@@ -267,6 +322,8 @@
             
             // Update display
             updateTextStyle();
+            fontColorHex.value = defaults.color;
+            bgColorHex.value = defaults.background;
         }
 
         // Add reset button event listener
