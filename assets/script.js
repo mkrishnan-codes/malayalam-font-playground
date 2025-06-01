@@ -183,8 +183,30 @@
   // Add reset button event listener
   resetButton.addEventListener('click', resetStyles);
 
-  // Initialize
-  updateTextStyle();
-  textDisplay.classList.add('align-left', 'align-top');
-  alignLeft.classList.add('active');
-  alignTop.classList.add('active');
+  // Add text display container sizing
+  function initializeTextDisplay() {
+      // Set initial dimensions
+      textDisplay.style.minHeight = '200px';  // Minimum starting height
+      textDisplay.style.maxHeight = '2800px';  // Maximum height
+      textDisplay.style.width = '95vw';       // 90% of viewport width
+      textDisplay.style.maxWidth = '1500px';  // Maximum width
+      
+      // Make text display auto-expandable
+      textDisplay.addEventListener('input', function() {
+          this.style.height = 'auto';
+          const newHeight = Math.min(Math.max(this.scrollHeight, 200), 2800);
+          this.style.height = newHeight + 'px';
+      });
+  }
+
+  // Add to initialization
+  function initialize() {
+      updateTextStyle();
+      initializeTextDisplay();
+      textDisplay.classList.add('align-left', 'align-top');
+      alignLeft.classList.add('active');
+      alignTop.classList.add('active');
+  }
+
+  // Call initialize instead of individual functions
+  initialize();
