@@ -1,140 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malayalam Font Playground</title>
-    
-    <!-- Import fonts -->
-    <style>
-        @import url('https://smc.org.in/fonts/gayathri.css');
-        @import url('https://smc.org.in/fonts/malini.css');
-        @import url('https://smc.org.in/fonts/manjari.css');
-        @import url('https://smc.org.in/fonts/nupuram.css');
-        @import url('https://smc.org.in/fonts/uroob.css');
-        @import url('https://smc.org.in/fonts/nupuram-arrows-color.css');
-        @import url('https://smc.org.in/fonts/nupuram-calligraphy.css');
-        @import url('https://smc.org.in/fonts/nupuram-color.css');
-        @import url('https://smc.org.in/fonts/keraleeyam.css');
-        @import url('https://smc.org.in/fonts/chilanka.css');
-        @import url('https://smc.org.in/fonts/dyuthi.css');
-        @import url('https://smc.org.in/fonts/karumbi.css');
-        @import url('https://smc.org.in/fonts/rachana.css');
-        @import url('https://smc.org.in/fonts/raghumalayalamsans.css');
-        @import url('https://smc.org.in/fonts/suruma.css');
+    <meta name="description"
+        content="Malayalam Text Editor - A free online tool for typing and formatting Malayalam text with various fonts and styling options">
+    <meta name="keywords"
+        content="Malayalam, Text Editor, Malayalam Fonts, Malayalam Typing, Online Editor, Malayalam Typography">
+    <meta name="author" content="Your Name">
 
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Malayalam Text Editor">
+    <meta property="og:description"
+        content="Free online Malayalam text editor with multiple fonts and formatting options">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://malayalam.mandevs.in/">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://malayalam.mandevs.in/">
 
-        body {
-            margin: 20px;
-            font-family: 'Gayathri', sans-serif;
-        }
+    <title>Malayalam Text Editor - Type and Format Malayalam Text Online</title>
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
-
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        select, input, button {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        /* Add styles for color inputs */
-        input[type="color"] {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Container for color inputs to show border */
-        .color-input-container {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 2px;
-            background: #fff;
-        }
-
-        .text-area {
-            min-height: 200px;
-            padding: 20px;
-            border: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            outline: none;
-            display: flex;
-            min-height: 300px;
-        }
-
-        /* Add alignment classes */
-        .align-left { justify-content: flex-start; }
-        .align-center { justify-content: center; }
-        .align-right { justify-content: flex-end; }
-        
-        .align-top { align-items: flex-start; }
-        .align-middle { align-items: center; }
-        .align-bottom { align-items: flex-end; }
-
-        /* Style for alignment button groups */
-        .alignment-buttons {
-            display: flex;
-            gap: 2px;
-        }
-
-        .alignment-buttons button {
-            padding: 8px 12px;
-        }
-
-        /* Add cursor hiding class */
-        .hide-cursor {
-            caret-color: transparent;
-        }
-
-        /* Optional: only show a subtle border when focused for better UX */
-        .text-area:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        button.active {
-            background: #007bff;
-            color: white;
-        }
-
-        /* Add styles for hex input */
-        input[type="text"].hex-input {
-            width: 80px;
-            margin-left: 5px;
-            font-family: monospace;
-        }
-
-        .color-group {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
 
     <!-- Add html2canvas library -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-N3JJZJ9F');</script>
+    <!-- End Google Tag Manager -->
 </head>
+
 <body>
-    <h1>Malayalam Fonts Playground <a href="https://smc.org.in">Taken from SMC</a></h1>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N3JJZJ9F" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+        <h1>Malayalam Fonts Playground</h1>
+        <p class="attribution">Powered by fonts from <a href="https://smc.org.in" target="_blank"
+                rel="noopener noreferrer">Swathanthra Malayalam Computing (SMC)</a></p>
+    </header>
+
+
     <div class="controls">
         <div class="control-group">
             <label for="font-family">Font:</label>
@@ -168,11 +83,7 @@
                 <div class="color-input-container">
                     <input type="color" id="font-color" value="#2C3E50">
                 </div>
-                <input type="text" 
-                    id="font-color-hex" 
-                    class="hex-input" 
-                    value="#2C3E50" 
-                    pattern="^#[0-9A-Fa-f]{6}$"
+                <input type="text" id="font-color-hex" class="hex-input" value="#2C3E50" pattern="^#[0-9A-Fa-f]{6}$"
                     title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
@@ -196,11 +107,7 @@
                 <div class="color-input-container">
                     <input type="color" id="bg-color" value="#FAF9F6">
                 </div>
-                <input type="text" 
-                    id="bg-color-hex" 
-                    class="hex-input" 
-                    value="#FAF9F6" 
-                    pattern="^#[0-9A-Fa-f]{6}$"
+                <input type="text" id="bg-color-hex" class="hex-input" value="#FAF9F6" pattern="^#[0-9A-Fa-f]{6}$"
                     title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
@@ -240,202 +147,31 @@
     </div>
 
     <div id="text-display" class="text-area" contenteditable="true"
-    placeholder="Type or paste your Malayalam text here..."
-    >
-    ടൈപ്പ് ചെയ്യുക. സ്റ്റൈൽ മുകളിൽ അഡ്ജസ്റ്റ് ചെയ്യുക 
+        placeholder="Type or paste your Malayalam text here...">
+        ടൈപ്പ് ചെയ്യുക. സ്റ്റൈൽ മുകളിൽ അഡ്ജസ്റ്റ് ചെയ്യുക
     </div>
+    <!-- Add usage description -->
+    <div class="usage-info">
+        <h2>എന്തിനാണ് ഈ ടൂൾ?</h2>
+        <p>Create custom Malayalam text designs for:</p>
+        <ul>
+            <li>🎨 Social media posts and stories</li>
+            <li>💬 WhatsApp status and messages</li>
+            <li>🎯 Custom stickers</li>
+            <li>📝 Quick notes with style</li>
+            <li>🖼️ Simple posters and graphics</li>
+        </ul>
+        <p>Just type or paste your text, customize the style, and download as an image!</p>
+    </div>
+    <!-- Add author signature -->
+    <div class="author-signature">
+        <p>Crafted by a malayalee with ☕️ and 💝 in Bangalore</p>
+    </div>
+    <div class="source-code">
+        <a href="https://github.com/mkrishnan-codes/malayalam-font-playground">Source code</a>
 
-    <script>
-        // Get all control elements
-        const fontSelect = document.getElementById('font-family');
-        const fontSize = document.getElementById('font-size');
-        const fontColor = document.getElementById('font-color');
-        const fontWeight = document.getElementById('font-weight');
-        const italicToggle = document.getElementById('italic-toggle');
-        const bgColor = document.getElementById('bg-color');
-        const textDisplay = document.getElementById('text-display');
-        const resetButton = document.getElementById('reset-button');
-        const cursorToggle = document.getElementById('cursor-toggle');
-        const screenshotButton = document.getElementById('screenshot-button');
-        const fontColorHex = document.getElementById('font-color-hex');
-        const bgColorHex = document.getElementById('bg-color-hex');
-
-        // Get alignment buttons
-        const alignLeft = document.getElementById('align-left');
-        const alignCenter = document.getElementById('align-center');
-        const alignRight = document.getElementById('align-right');
-        const alignTop = document.getElementById('align-top');
-        const alignMiddle = document.getElementById('align-middle');
-        const alignBottom = document.getElementById('align-bottom');
-
-        // Default values
-        const defaults = {
-            font: 'Karumbi',
-            size: '24',
-            color: '#000000',
-            weight: 'normal',
-            italic: false,
-            background: '#ffffff'
-        };
-
-        // Update text styling function
-        function updateTextStyle() {
-            textDisplay.style.fontFamily = fontSelect.value;
-            textDisplay.style.fontSize = fontSize.value + 'px';
-            textDisplay.style.color = fontColor.value;
-            textDisplay.style.fontWeight = fontWeight.value;
-            textDisplay.style.backgroundColor = bgColor.value;
-        }
-
-        // Add event listeners
-        fontSelect.addEventListener('change', updateTextStyle);
-        fontSize.addEventListener('input', updateTextStyle);
-        fontColor.addEventListener('input', (e) => {
-            fontColorHex.value = e.target.value;
-            updateTextStyle();
-        });
-        fontWeight.addEventListener('change', updateTextStyle);
-        bgColor.addEventListener('input', (e) => {
-            bgColorHex.value = e.target.value;
-            updateTextStyle();
-        });
-
-        // Toggle italic
-        let isItalic = false;
-        italicToggle.addEventListener('click', () => {
-            isItalic = !isItalic;
-            textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
-            italicToggle.classList.toggle('active');
-        });
-
-        // Cursor toggle functionality
-        let isCursorVisible = true;
-        cursorToggle.addEventListener('click', () => {
-            isCursorVisible = !isCursorVisible;
-            textDisplay.classList.toggle('hide-cursor');
-            cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
-            cursorToggle.classList.toggle('active');
-        });
-
-        // Screenshot functionality
-        screenshotButton.addEventListener('click', () => {
-            // Generate random 4-letter string
-            const randomPrefix = Math.random().toString(36).substring(2, 6);
-            
-            html2canvas(textDisplay, {
-                backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
-                scale: 2  // For better quality
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `${randomPrefix}-malayalam-text.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        });
-
-        // Update hex inputs when color pickers change
-        fontColorHex.addEventListener('input', (e) => {
-            if (e.target.checkValidity()) {
-                fontColor.value = e.target.value;
-                updateTextStyle();
-            }
-        });
-
-        bgColorHex.addEventListener('input', (e) => {
-            if (e.target.checkValidity()) {
-                bgColor.value = e.target.value;
-                updateTextStyle();
-            }
-        });
-
-        // Horizontal alignment
-        alignLeft.addEventListener('click', () => {
-            textDisplay.classList.remove('align-center', 'align-right');
-            textDisplay.classList.add('align-left');
-            updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
-        });
-
-        alignCenter.addEventListener('click', () => {
-            textDisplay.classList.remove('align-left', 'align-right');
-            textDisplay.classList.add('align-center');
-            updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
-        });
-
-        alignRight.addEventListener('click', () => {
-            textDisplay.classList.remove('align-left', 'align-center');
-            textDisplay.classList.add('align-right');
-            updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
-        });
-
-        // Vertical alignment
-        alignTop.addEventListener('click', () => {
-            textDisplay.classList.remove('align-middle', 'align-bottom');
-            textDisplay.classList.add('align-top');
-            updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
-        });
-
-        alignMiddle.addEventListener('click', () => {
-            textDisplay.classList.remove('align-top', 'align-bottom');
-            textDisplay.classList.add('align-middle');
-            updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
-        });
-
-        alignBottom.addEventListener('click', () => {
-            textDisplay.classList.remove('align-top', 'align-middle');
-            textDisplay.classList.add('align-bottom');
-            updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
-        });
-
-        // Helper function to update active button state
-        function updateActiveButton(buttons, activeButton) {
-            buttons.forEach(button => button.classList.remove('active'));
-            activeButton.classList.add('active');
-        }
-
-        // Reset function
-        function resetStyles() {
-            fontSelect.value = defaults.font;
-            fontSize.value = defaults.size;
-            fontColor.value = defaults.color;
-            fontWeight.value = defaults.weight;
-            bgColor.value = defaults.background;
-            
-            // Reset italic
-            isItalic = defaults.italic;
-            textDisplay.style.fontStyle = 'normal';
-            italicToggle.classList.remove('active');
-            
-            // Reset cursor visibility
-            isCursorVisible = true;
-            textDisplay.classList.remove('hide-cursor');
-            cursorToggle.textContent = 'Hide Cursor';
-            cursorToggle.classList.remove('active');
-            
-            // Reset alignments
-            textDisplay.classList.remove(
-                'align-left', 'align-center', 'align-right',
-                'align-top', 'align-middle', 'align-bottom'
-            );
-            textDisplay.classList.add('align-left', 'align-top');
-            
-            // Reset alignment buttons
-            updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
-            updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
-            
-            // Update display
-            updateTextStyle();
-            fontColorHex.value = defaults.color;
-            bgColorHex.value = defaults.background;
-        }
-
-        // Add reset button event listener
-        resetButton.addEventListener('click', resetStyles);
-
-        // Initialize
-        updateTextStyle();
-        textDisplay.classList.add('align-left', 'align-top');
-        alignLeft.classList.add('active');
-        alignTop.classList.add('active');
-    </script>
+    </div>
+    <script src="assets/script.js"></script>
 </body>
+
 </html>
