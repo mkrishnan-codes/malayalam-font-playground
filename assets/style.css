@@ -124,24 +124,18 @@ input[type="text"].hex-input {
 /* Text area styles */
 .text-area {
     box-sizing: border-box;
-    resize: vertical;
     overflow: auto;
-    margin: 0 auto;
-    transition: height 0.2s ease;
-    min-height: 200px;
-    max-height: 1900px;
-    width: 99vw;
-    max-width: 1500px;
+    margin: 20px auto;
     padding: 25px;
     border: none;
     border-radius: 12px;
-    margin-top: 20px;
     outline: none;
     display: flex;
     background: white;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     font-size: 24px;
     line-height: 1.5;
+    transition: all 0.3s ease;
 }
 
 /* Alignment styles */
@@ -174,25 +168,22 @@ input[type="text"].hex-input {
 .align-bottom { align-items: flex-end; }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    body {
-        margin: 10px;
-    }
-    
-    .controls {
-        padding: 15px;
-        gap: 10px;
-    }
-    
-    .control-group {
-        flex: 1 1 auto;
-    }
-    
+@media (max-width: 1024px) {
     .text-area {
+        width: 95vw !important;
+        height: 95vw !important; /* Square aspect ratio on mobile */
+        min-height: 400px;
         padding: 15px;
+        font-size: 20px;
     }
 }
 
+@media (max-width: 480px) {
+    .text-area {
+        font-size: 18px;
+        padding: 12px;
+    }
+}
 
 .author-signature {
     margin-top: 30px;
@@ -208,8 +199,6 @@ input[type="text"].hex-input {
     border-top: 1px solid #dee2e6;
     display: inline-block;
 }
-
-
 
 .usage-info {
     background: white;
@@ -249,4 +238,29 @@ input[type="text"].hex-input {
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.size-mode-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.size-mode-buttons button {
+    padding: 8px 12px;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.size-mode-buttons button:hover {
+    border-color: #3498db;
+    background: #e9ecef;
+}
+
+.size-mode-buttons button.active {
+    background: #3498db;
+    color: white;
+    border-color: #2980b9;
 }

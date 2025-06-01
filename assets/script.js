@@ -20,6 +20,11 @@
   const alignMiddle = document.getElementById('align-middle');
   const alignBottom = document.getElementById('align-bottom');
 
+  // Get size mode buttons
+  const squareButton = document.getElementById('square-button');
+  const landscapeButton = document.getElementById('landscape-button');
+  const portraitButton = document.getElementById('portrait-button');
+
   // Default values
   const defaults = {
       font: 'Karumbi',
@@ -29,6 +34,9 @@
       italic: false,
       background: '#ffffff'
   };
+
+  // Define storage key
+  const STORAGE_KEY = 'malayalamFontPlayground';
 
   // Update text styling function
   function updateTextStyle() {
@@ -71,16 +79,17 @@
 
   // Screenshot functionality
   screenshotButton.addEventListener('click', () => {
-      // Generate random 4-letter string
       const randomPrefix = Math.random().toString(36).substring(2, 6);
       
       html2canvas(textDisplay, {
           backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
-          scale: 2  // For better quality
+          scale: 2.5,  // Increased scale for better quality
+          useCORS: true,
+          logging: false
       }).then(canvas => {
           const link = document.createElement('a');
           link.download = `${randomPrefix}-malayalam-text.png`;
-          link.href = canvas.toDataURL('image/png');
+          link.href = canvas.toDataURL('image/png', 1.0); // Maximum quality
           link.click();
       });
   });
@@ -144,8 +153,109 @@
       activeButton.classList.add('active');
   }
 
+  // Function to save state to localStorage
+  function saveToLocalStorage() {
+      const state = {
+          font: fontSelect.value,
+          size: fontSize.value,
+          color: fontColor.value,
+          weight: fontWeight.value,
+          italic: isItalic,
+          background: bgColor.value,
+          text: textDisplay.innerHTML,
+          cursorVisible: isCursorVisible,
+          alignmentH: textDisplay.classList.contains('align-right') ? 'right' : 
+                     textDisplay.classList.contains('align-center') ? 'center' : 'left',
+          alignmentV: textDisplay.classList.contains('align-bottom') ? 'bottom' : 
+                     textDisplay.classList.contains('align-middle') ? 'middle' : 'top',
+          sizeMode: textDisplay.style.width === '1200px' ? 'landscape' : 
+                   textDisplay.style.height === '1200px' ? 'portrait' : 'square'
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  // Function to load state from localStorage
+  function loadFromLocalStorage() {
+      const savedState = localStorage.getItem(STORAGE_KEY);
+      if (savedState) {
+          const state = JSON.parse(savedState);
+          
+          // Restore values
+          fontSelect.value = state.font;
+          fontSize.value = state.size;
+          fontColor.value = state.color;
+          fontWeight.value = state.weight;
+          bgColor.value = state.background;
+          textDisplay.innerHTML = state.text;
+          
+          // Restore italic state
+          isItalic = state.italic;
+          textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
+          italicToggle.classList.toggle('active', isItalic);
+          
+          // Restore cursor visibility
+          isCursorVisible = state.cursorVisible;
+          textDisplay.classList.toggle('hide-cursor', !isCursorVisible);
+          cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
+          cursorToggle.classList.toggle('active', !isCursorVisible);
+          
+          // Restore horizontal alignment
+          switch(state.alignmentH) {
+              case 'right':
+                  alignRight.click();
+                  break;
+              case 'center':
+                  alignCenter.click();
+                  break;
+              default:
+                  alignLeft.click();
+          }
+          
+          // Restore vertical alignment
+          switch(state.alignmentV) {
+              case 'bottom':
+                  alignBottom.click();
+                  break;
+              case 'middle':
+                  alignMiddle.click();
+                  break;
+              default:
+                  alignTop.click();
+          }
+          
+          // Restore size mode
+          setSizeMode(state.sizeMode);
+          
+          // Update hex inputs
+          fontColorHex.value = state.color;
+          bgColorHex.value = state.background;
+          
+          // Update display
+          updateTextStyle();
+      }
+  }
+
+  // Add storage event listeners to all controls
+  fontSelect.addEventListener('change', saveToLocalStorage);
+  fontSize.addEventListener('input', saveToLocalStorage);
+  fontColor.addEventListener('input', saveToLocalStorage);
+  fontWeight.addEventListener('change', saveToLocalStorage);
+  bgColor.addEventListener('input', saveToLocalStorage);
+  textDisplay.addEventListener('input', saveToLocalStorage);
+  italicToggle.addEventListener('click', saveToLocalStorage);
+  cursorToggle.addEventListener('click', saveToLocalStorage);
+
+  // Add storage to alignment buttons
+  [alignLeft, alignCenter, alignRight, alignTop, alignMiddle, alignBottom]
+      .forEach(button => button.addEventListener('click', saveToLocalStorage));
+
+  // Add storage to size mode buttons
+  [squareButton, landscapeButton, portraitButton]
+      .forEach(button => button.addEventListener('click', saveToLocalStorage));
+
   // Reset function
   function resetStyles() {
+      localStorage.removeItem(STORAGE_KEY);
       fontSelect.value = defaults.font;
       fontSize.value = defaults.size;
       fontColor.value = defaults.color;
@@ -210,3 +320,37 @@
 
   // Call initialize instead of individual functions
   initialize();
+
+  // Add event listeners for size mode buttons
+  squareButton.addEventListener('click', () => setSizeMode('square'));
+  landscapeButton.addEventListener('click', () => setSizeMode('landscape'));
+  portraitButton.addEventListener('click', () => setSizeMode('portrait'));
+
+  function setSizeMode(mode) {
+      switch(mode) {
+          case 'square':
+              textDisplay.style.height = '800px';
+              textDisplay.style.width = '800px';
+              break;
+          case 'landscape':
+              textDisplay.style.height = '800px';
+              textDisplay.style.width = '1200px';
+              break;
+          case 'portrait':
+              textDisplay.style.height = '1200px';
+              textDisplay.style.width = '800px';
+              break;
+      }
+      
+      // Update active button state
+      updateActiveButton([squareButton, landscapeButton, portraitButton], 
+          document.getElementById(`${mode}-button`));
+  }
+
+  // Set default size mode when page loads
+  window.addEventListener('load', () => {
+      setSizeMode('square');  // Set square as default
+  });
+
+  // Load saved state when page loads
+  window.addEventListener('load', loadFromLocalStorage);
