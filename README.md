@@ -26,6 +26,16 @@ A web-based tool for experimenting with Malayalam fonts and creating stylized te
 
 This project proudly uses fonts from [Swathanthra Malayalam Computing (SMC)](https://smc.org.in), a non-profit organization working for the development of Malayalam language computing. Their contributions to Malayalam typography and computing are invaluable to the community.
 
+## Why This Project? 🤔
+
+This project follows the KISS principle (Keep It Simple, Stupid):
+- Zero dependencies - just HTML, CSS, and vanilla JavaScript
+- No build tools or complex setup required
+- No package installations needed
+- Easy to maintain and modify
+- Runs directly in the browser
+- Perfect for quick text styling needs
+
 ## Development Setup 💻
 
 ### Prerequisites
