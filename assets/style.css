@@ -123,7 +123,15 @@ input[type="text"].hex-input {
 
 /* Text area styles */
 .text-area {
-    min-height: 300px;
+    box-sizing: border-box;
+    resize: vertical;
+    overflow: auto;
+    margin: 0 auto;
+    transition: height 0.2s ease;
+    min-height: 200px;
+    max-height: 1900px;
+    width: 99vw;
+    max-width: 1500px;
     padding: 25px;
     border: none;
     border-radius: 12px;
