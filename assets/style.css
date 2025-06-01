@@ -1,0 +1,244 @@
+@import url('https://smc.org.in/fonts/gayathri.css');
+@import url('https://smc.org.in/fonts/malini.css');
+@import url('https://smc.org.in/fonts/manjari.css');
+@import url('https://smc.org.in/fonts/nupuram.css');
+@import url('https://smc.org.in/fonts/uroob.css');
+@import url('https://smc.org.in/fonts/nupuram-arrows-color.css');
+@import url('https://smc.org.in/fonts/nupuram-calligraphy.css');
+@import url('https://smc.org.in/fonts/nupuram-color.css');
+@import url('https://smc.org.in/fonts/keraleeyam.css');
+@import url('https://smc.org.in/fonts/chilanka.css');
+@import url('https://smc.org.in/fonts/dyuthi.css');
+@import url('https://smc.org.in/fonts/karumbi.css');
+@import url('https://smc.org.in/fonts/rachana.css');
+@import url('https://smc.org.in/fonts/raghumalayalamsans.css');
+@import url('https://smc.org.in/fonts/suruma.css');
+
+body {
+    margin: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #2C3E50;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #2C3E50;
+}
+
+h1 a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+h1 a:hover {
+    text-decoration: underline;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-group label {
+    font-weight: 500;
+    min-width: 70px;
+}
+
+select, input, button {
+    padding: 8px 12px;
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+select:hover, input:hover, button:hover {
+    border-color: #3498db;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
+}
+
+button {
+    background: #f8f9fa;
+    cursor: pointer;
+    color: #2C3E50;
+}
+
+button:hover {
+    background: #e9ecef;
+}
+
+button.active {
+    background: #3498db;
+    color: white;
+    border-color: #2980b9;
+}
+
+/* Color input styles */
+input[type="color"] {
+    width: 40px;
+    height: 40px;
+    padding: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+.color-input-container {
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    padding: 2px;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Hex input styles */
+input[type="text"].hex-input {
+    width: 85px;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+.color-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Text area styles */
+.text-area {
+    min-height: 300px;
+    padding: 25px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 20px;
+    outline: none;
+    display: flex;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+/* Alignment styles */
+.alignment-buttons {
+    display: flex;
+    gap: 4px;
+    background: #f8f9fa;
+    padding: 2px;
+    border-radius: 6px;
+}
+
+.alignment-buttons button {
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Hide cursor class */
+.hide-cursor {
+    caret-color: transparent;
+}
+
+/* Alignment classes */
+.align-left { justify-content: flex-start; }
+.align-center { justify-content: center; }
+.align-right { justify-content: flex-end; }
+
+.align-top { align-items: flex-start; }
+.align-middle { align-items: center; }
+.align-bottom { align-items: flex-end; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+    }
+    
+    .controls {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .control-group {
+        flex: 1 1 auto;
+    }
+    
+    .text-area {
+        padding: 15px;
+    }
+}
+
+
+.author-signature {
+    margin-top: 30px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.author-signature p {
+    margin: 0;
+    padding: 10px;
+    border-top: 1px solid #dee2e6;
+    display: inline-block;
+}
+
+
+
+.usage-info {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.usage-info h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2C3E50;
+    font-size: 1.5em;
+}
+
+.usage-info ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 15px 0;
+}
+
+.usage-info li {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.usage-info p {
+    color: #666;
+    margin: 10px 0;
+}
+.source-code{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
