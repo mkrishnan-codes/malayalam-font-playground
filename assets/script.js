@@ -25,18 +25,64 @@ const squareButton = document.getElementById('square-button');
 const landscapeButton = document.getElementById('landscape-button');
 const portraitButton = document.getElementById('portrait-button');
 
+const debugInfo = document.getElementById('debug-info');
+
 // Default values
 const defaults = {
-    font: 'Karumbi',
+    font: 'Manjari',
     size: '24',
-    color: '#000000',
+    color: '#CAD3C8',
     weight: 'normal',
     italic: false,
-    background: '#ffffff'
+    background: '#2C3A47'
 };
 
 let isItalic = false;
 let isCursorVisible = true;
+
+// Add PWA install prompt functionality
+let deferredPrompt;
+
+// Create install button in the controls section
+const installButton = document.createElement('button');
+installButton.textContent = '📱 Install App';
+installButton.classList.add('install-button');
+// Add it to the beginning of controls
+const controlsDiv = document.querySelector('.controls');
+controlsDiv.insertBefore(installButton, controlsDiv.firstChild);
+
+// Initially hide the button
+installButton.style.display = 'none';
+
+// Debug logging
+window.addEventListener('beforeinstallprompt', (e) => {
+    console.log('beforeinstallprompt fired');
+    e.preventDefault();
+    deferredPrompt = e;
+    // Show the install button
+    installButton.style.display = 'block';
+});
+
+installButton.addEventListener('click', async () => {
+    console.log('Install button clicked');
+    if (!deferredPrompt) {
+        console.log('No deferred prompt available');
+        return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to install prompt: ${outcome}`);
+    deferredPrompt = null;
+    installButton.style.display = 'none';
+});
+
+window.addEventListener('appinstalled', (evt) => {
+    console.log('App was installed');
+    installButton.style.display = 'none';
+});
+const printDebugInfo = (msg) => {
+    debugInfo.textContent = msg;
+}
 
 // Basic update function
 function updateTextStyle() {
@@ -77,21 +123,25 @@ cursorToggle.addEventListener('click', () => {
     cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
     cursorToggle.classList.toggle('active');
 });
-
+const ADJUSTED_OFFSET = 100;
+function setSizeByRatio(ratioWidth, ratioHeight) {
+    const deviceWidth = window.innerWidth-ADJUSTED_OFFSET;
+    textDisplay.style.height = `${deviceWidth*ratioHeight}px`;
+    textDisplay.style.width = `${deviceWidth*ratioWidth}px`;
+}
 // Size modes
+
 function setSizeMode(mode) {
     switch(mode) {
         case 'square':
-            textDisplay.style.height = '800px';
-            textDisplay.style.width = '800px';
+           setSizeByRatio(1,1);
             break;
         case 'landscape':
-            textDisplay.style.height = '800px';
-            textDisplay.style.width = '1200px';
+            setSizeByRatio(1,0.56);
+           
             break;
         case 'portrait':
-            textDisplay.style.height = '1200px';
-            textDisplay.style.width = '800px';
+            setSizeByRatio(1,1.78);
             break;
     }
     updateActiveButton([squareButton, landscapeButton, portraitButton], 
@@ -108,41 +158,42 @@ function updateActiveButton(buttons, activeButton) {
     activeButton.classList.add('active');
 }
 
+// Horizontal alignment
 alignLeft.addEventListener('click', () => {
-    textDisplay.classList.remove('align-center', 'align-right');
-    textDisplay.classList.add('align-left');
+    textDisplay.style.textAlign = 'left';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
 });
 
 alignCenter.addEventListener('click', () => {
-    textDisplay.classList.remove('align-left', 'align-right');
-    textDisplay.classList.add('align-center');
+    textDisplay.style.textAlign = 'center';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
 });
 
 alignRight.addEventListener('click', () => {
-    textDisplay.classList.remove('align-left', 'align-center');
-    textDisplay.classList.add('align-right');
+    textDisplay.style.textAlign = 'right';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
 });
 
+// Vertical alignment
 alignTop.addEventListener('click', () => {
-    textDisplay.classList.remove('align-middle', 'align-bottom');
-    textDisplay.classList.add('align-top');
+    textDisplay.style.justifyContent = 'flex-start';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
 });
 
 alignMiddle.addEventListener('click', () => {
-    textDisplay.classList.remove('align-top', 'align-bottom');
-    textDisplay.classList.add('align-middle');
+    textDisplay.style.justifyContent = 'center';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
 });
 
 alignBottom.addEventListener('click', () => {
-    textDisplay.classList.remove('align-top', 'align-middle');
-    textDisplay.classList.add('align-bottom');
+    textDisplay.style.justifyContent = 'flex-end';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
 });
+
+// Make sure text display has flex properties
+textDisplay.style.display = 'flex';
+textDisplay.style.flexDirection = 'column';
+textDisplay.style.minHeight = '100%'; // Ensure full height for alignment
 
 // Reset function
 resetButton.addEventListener('click', () => {
@@ -176,8 +227,16 @@ screenshotButton.addEventListener('click', () => {
     });
 });
 
-// Initialize
+// Set initial alignment states
 window.addEventListener('load', () => {
     setSizeMode('square');
     updateTextStyle();
+    
+    // Set default horizontal alignment (left) and highlight the button
+    textDisplay.style.textAlign = 'left';
+    alignLeft.classList.add('active');
+    
+    // Set default vertical alignment (top) and highlight the button
+    textDisplay.style.justifyContent = 'flex-start';
+    alignTop.classList.add('active');
 });

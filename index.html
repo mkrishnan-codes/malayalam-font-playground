@@ -81,21 +81,20 @@
         <div class="control-group">
             <label for="font-family">Font:</label>
             <select id="font-family">
-                <option value="Karumbi" selected>Karumbi</option>
+                <option value="Manjari" selected>Manjari</option>
+                <option value="Karumbi">Karumbi</option>
                 <option value="Gayathri">Gayathri</option>
                 <option value="Malini">Malini</option>
-                <option value="Manjari">Manjari</option>
                 <option value="Nupuram">Nupuram</option>
                 <option value="Uroob">Uroob</option>
-                <option value="Nupuram-Arrows-Color">Nupuram Arrows Color</option>
-                <option value="Nupuram-Calligraphy">Nupuram Calligraphy</option>
-                <option value="Nupuram-Color">Nupuram Color</option>
                 <option value="Keraleeyam">Keraleeyam</option>
                 <option value="Chilanka">Chilanka</option>
                 <option value="Dyuthi">Dyuthi</option>
                 <option value="Rachana">Rachana</option>
                 <option value="RaghuMalayalamSans">Raghu Malayalam Sans</option>
                 <option value="Suruma">Suruma</option>
+                <option value="Meera">Meera</option>
+                <option value="Noto Sans Malayalam">Noto Sans Malayalam</option>
             </select>
         </div>
 
@@ -108,9 +107,9 @@
             <label for="font-color">Color:</label>
             <div class="color-group">
                 <div class="color-input-container">
-                    <input type="color" id="font-color" value="#2C3E50">
+                    <input type="color" id="font-color" value="#CAD3C8">
                 </div>
-                <input type="text" id="font-color-hex" class="hex-input" value="#2C3E50" pattern="^#[0-9A-Fa-f]{6}$"
+                <input type="text" id="font-color-hex" class="hex-input" value="#CAD3C8" pattern="^#[0-9A-Fa-f]{6}$"
                     title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
@@ -132,15 +131,43 @@
             <label for="bg-color">Background:</label>
             <div class="color-group">
                 <div class="color-input-container">
-                    <input type="color" id="bg-color" value="#FAF9F6">
+                    <input type="color" id="bg-color" value="#2C3A47">
                 </div>
-                <input type="text" id="bg-color-hex" class="hex-input" value="#FAF9F6" pattern="^#[0-9A-Fa-f]{6}$"
+                <input type="text" id="bg-color-hex" class="hex-input" value="#2C3A47" pattern="^#[0-9A-Fa-f]{6}$"
                     title="Hex color code (e.g., #FF0000)">
             </div>
         </div>
 
-        <!-- Add reset button -->
+       
+
         <div class="control-group">
+            <label>Align:</label>
+            <div class="alignment-buttons">
+                <button id="align-left" title="Align Left">⬅️</button>
+                <button id="align-center" title="Align Center">⇔</button>
+                <button id="align-right" title="Align Right">➡️</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Vertical:</label>
+            <div class="alignment-buttons">
+                <button id="align-top" title="Align Top">⬆️</button>
+                <button id="align-middle" title="Align Middle">↕</button>
+                <button id="align-bottom" title="Align Bottom">⬇️</button>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Canvas:</label>
+            <div class="size-mode-buttons">
+                <button id="square-button" title="Square Mode (800x800)">🔲</button>
+                <button id="landscape-button" title="Landscape Mode (1200x800)">🖥</button>
+                <button id="portrait-button" title="Portrait Mode (800x1200)">📱</button>
+            </div>
+        </div>
+         <!-- Add reset button -->
+         <div class="control-group">
             <button id="reset-button">Reset</button>
         </div>
 
@@ -153,38 +180,11 @@
         <div class="control-group">
             <button id="screenshot-button">Download Text as image</button>
         </div>
-
-        <div class="control-group">
-            <label>Align:</label>
-            <div class="alignment-buttons">
-                <button id="align-left" title="Align Left">⇤</button>
-                <button id="align-center" title="Align Center">⇔</button>
-                <button id="align-right" title="Align Right">⇥</button>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label>Vertical:</label>
-            <div class="alignment-buttons">
-                <button id="align-top" title="Align Top">⇧</button>
-                <button id="align-middle" title="Align Middle">↕</button>
-                <button id="align-bottom" title="Align Bottom">⇩</button>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <label>Canvas:</label>
-            <div class="size-mode-buttons">
-                <button id="square-button" title="Square Mode (800x800)">Square</button>
-                <button id="landscape-button" title="Landscape Mode (1200x800)">Landscape</button>
-                <button id="portrait-button" title="Portrait Mode (800x1200)">Portrait</button>
-            </div>
-        </div>
     </div>
 
     <div id="text-display" class="text-area" contenteditable="true"
         placeholder="Type or paste your Malayalam text here...">
-        ടൈപ്പ് ചെയ്യുക. സ്റ്റൈൽ മുകളിൽ അഡ്ജസ്റ്റ് ചെയ്യുക
+        ടൈപ്പ് ചെയ്യുക
     </div>
     <!-- Add usage description -->
     <div class="usage-info">
@@ -207,6 +207,7 @@
         <a href="https://github.com/mkrishnan-codes/malayalam-font-playground">Source code</a>
 
     </div>
+    <div id="debug-info"></div>
     <script src="assets/script.js"></script>
 </body>
 

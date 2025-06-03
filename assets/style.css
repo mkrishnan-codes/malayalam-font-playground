@@ -3,9 +3,6 @@
 @import url('https://smc.org.in/fonts/manjari.css');
 @import url('https://smc.org.in/fonts/nupuram.css');
 @import url('https://smc.org.in/fonts/uroob.css');
-@import url('https://smc.org.in/fonts/nupuram-arrows-color.css');
-@import url('https://smc.org.in/fonts/nupuram-calligraphy.css');
-@import url('https://smc.org.in/fonts/nupuram-color.css');
 @import url('https://smc.org.in/fonts/keraleeyam.css');
 @import url('https://smc.org.in/fonts/chilanka.css');
 @import url('https://smc.org.in/fonts/dyuthi.css');
@@ -13,6 +10,11 @@
 @import url('https://smc.org.in/fonts/rachana.css');
 @import url('https://smc.org.in/fonts/raghumalayalamsans.css');
 @import url('https://smc.org.in/fonts/suruma.css');
+@import url('https://smc.org.in/fonts/meera.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@100..900&display=swap');
+
+
 
 body {
     margin: 20px;
@@ -34,154 +36,92 @@ h1 a {
 h1 a:hover {
     text-decoration: underline;
 }
-
+.text-area{
+    padding: 24px;
+}
 .controls {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 20px;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 12px;
     background: white;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .control-group {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
+    min-width: fit-content;
 }
 
 .control-group label {
+    font-size: 13px;
     font-weight: 500;
-    min-width: 70px;
+    min-width: auto;
+    white-space: nowrap;
 }
 
 select, input, button {
-    padding: 8px 12px;
+    padding: 6px 8px;
     border: 1px solid #e1e1e1;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: all 0.2s ease;
+    border-radius: 4px;
+    font-size: 13px;
 }
 
-select:hover, input:hover, button:hover {
-    border-color: #3498db;
-}
-
-select:focus, input:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
-}
-
-button {
-    background: #f8f9fa;
-    cursor: pointer;
-    color: #2C3E50;
-}
-
-button:hover {
-    background: #e9ecef;
-}
-
-button.active {
-    background: #3498db;
-    color: white;
-    border-color: #2980b9;
-}
-
-/* Color input styles */
-input[type="color"] {
-    width: 40px;
-    height: 40px;
-    padding: 2px;
-    border: none;
-    cursor: pointer;
-}
-
-.color-input-container {
-    border: 1px solid #e1e1e1;
-    border-radius: 6px;
-    padding: 2px;
-    background: #fff;
-    overflow: hidden;
-}
-
-/* Hex input styles */
-input[type="text"].hex-input {
-    width: 85px;
-    font-family: monospace;
-    text-transform: uppercase;
+input[type="number"] {
+    width: 60px;
 }
 
 .color-group {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
-
-/* Text area styles */
-.text-area {
-    box-sizing: border-box;
-    overflow: auto;
-    margin: 20px auto;
-    padding: 25px;
-    border: none;
-    border-radius: 12px;
-    outline: none;
-    display: flex;
-    background: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    font-size: 24px;
-    line-height: 1.5;
-    transition: all 0.3s ease;
-}
-
-/* Alignment styles */
-.alignment-buttons {
-    display: flex;
     gap: 4px;
-    background: #f8f9fa;
-    padding: 2px;
-    border-radius: 6px;
 }
 
-.alignment-buttons button {
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 16px;
+input[type="color"] {
+    width: 30px;
+    height: 30px;
+    padding: 0;
 }
 
-/* Hide cursor class */
-.hide-cursor {
-    caret-color: transparent;
+input[type="text"].hex-input {
+    width: 70px;
+    font-size: 12px;
 }
 
-/* Alignment classes */
-.align-left { justify-content: flex-start; }
-.align-center { justify-content: center; }
-.align-right { justify-content: flex-end; }
+.alignment-buttons, .size-mode-buttons {
+    display: flex;
+    gap: 2px;
+}
 
-.align-top { align-items: flex-start; }
-.align-middle { align-items: center; }
-.align-bottom { align-items: flex-end; }
+.alignment-buttons button, .size-mode-buttons button {
+    padding: 6px 8px;
+    font-size: 13px;
+}
+
+/* Make install button more compact */
+.install-button {
+    padding: 6px 10px;
+    font-size: 13px;
+}
 
 /* Responsive adjustments */
-@media (max-width: 1024px) {
-    .text-area {
-        width: 95vw !important;
-        height: 95vw !important; /* Square aspect ratio on mobile */
-        min-height: 400px;
-        padding: 15px;
-        font-size: 20px;
-    }
-}
-
 @media (max-width: 480px) {
-    .text-area {
-        font-size: 18px;
-        padding: 12px;
+    .controls {
+        padding: 8px;
+        gap: 6px;
+    }
+    
+    select, input, button {
+        padding: 4px 6px;
+        font-size: 12px;
+    }
+    
+    .control-group label {
+        font-size: 12px;
     }
 }
 
@@ -263,4 +203,23 @@ input[type="text"].hex-input {
     background: #3498db;
     color: white;
     border-color: #2980b9;
+}
+
+.install-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.install-button:hover {
+    background-color: #2980b9;
+}
+
+.alignment-buttons button.active {
+    background-color: #3498db;
+    color: white;
 }
