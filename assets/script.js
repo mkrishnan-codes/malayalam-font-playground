@@ -31,10 +31,10 @@ const debugInfo = document.getElementById('debug-info');
 const defaults = {
     font: 'Manjari',
     size: '24',
-    color: '#CAD3C8',
+    color: '#2f3640',
     weight: 'normal',
     italic: false,
-    background: '#2C3A47'
+    background: '#f5f6fa'
 };
 
 let isItalic = false;
@@ -107,6 +107,26 @@ fontColor.addEventListener('input', (e) => {
 bgColor.addEventListener('input', (e) => {
     bgColorHex.value = e.target.value;
     updateTextStyle();
+});
+
+// Add hex input listeners for font color
+fontColorHex.addEventListener('input', (e) => {
+    const hexValue = e.target.value;
+    // Validate hex color format
+    if (/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
+        fontColor.value = hexValue;
+        updateTextStyle();
+    }
+});
+
+// Add hex input listeners for background color
+bgColorHex.addEventListener('input', (e) => {
+    const hexValue = e.target.value;
+    // Validate hex color format
+    if (/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
+        bgColor.value = hexValue;
+        updateTextStyle();
+    }
 });
 
 // Toggle italic
@@ -200,8 +220,10 @@ resetButton.addEventListener('click', () => {
     fontSelect.value = defaults.font;
     fontSize.value = defaults.size;
     fontColor.value = defaults.color;
+    fontColorHex.value = defaults.color;
     fontWeight.value = defaults.weight;
     bgColor.value = defaults.background;
+    bgColorHex.value = defaults.background;
     isItalic = false;
     italicToggle.classList.remove('active');
     textDisplay.classList.remove('hide-cursor');
