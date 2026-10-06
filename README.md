@@ -5,12 +5,14 @@ A web-based tool for experimenting with Malayalam fonts and creating stylized te
 ## Features ✨
 
 - 15+ Malayalam fonts from Swathanthra Malayalam Computing (SMC)
+- Searchable font selection for quickly finding a font
 - Real-time font customization:
   - Font size and weight
-  - Text color and background
+  - Text color and background, including transparent backgrounds
+  - Adjustable text stroke color and thickness
   - Italic styling
   - Text alignment (horizontal and vertical)
-- Export text as image
+- Export text as a PNG image, with transparent-background support
 - Cursor visibility toggle
 - Mobile-responsive design
 

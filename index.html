@@ -22,6 +22,8 @@
 
     <title>Malayalam Text Editor - Type and Format Malayalam Text Online</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@0.25.0/dist/coloris.min.css">
     <link rel="stylesheet" href="assets/style.css">
 
     <!-- Add html2canvas library -->
@@ -78,7 +80,7 @@
 
 
     <div class="controls">
-        <div class="control-group">
+        <div class="control-group font-picker-control">
             <label for="font-family">Font:</label>
             <select id="font-family">
                 <option value="Manjari" selected>Manjari</option>
@@ -95,6 +97,14 @@
                 <option value="Suruma">Suruma</option>
                 <option value="Meera">Meera</option>
                 <option value="Noto Sans Malayalam">Noto Sans Malayalam</option>
+                <option value="DM Sans">DM Sans</option>
+                <option value="Fira Sans">Fira Sans</option>
+                <option value="Lavishly Yours">Lavishly Yours</option>
+                <option value="Michroma">Michroma</option>
+                <option value="Rubik Distressed">Rubik Distressed</option>
+                <option value="Special Elite">Special Elite</option>
+                <option value="Coral Pixels">Coral Pixels</option>
+                <option value="Permanent Marker">Permanent Marker</option>
             </select>
         </div>
 
@@ -106,12 +116,23 @@
         <div class="control-group">
             <label for="font-color">Color:</label>
             <div class="color-group">
-                <div class="color-input-container">
-                    <input type="color" id="font-color" value="#2f3640">
-                </div>
-                <input type="text" id="font-color-hex" class="hex-input" value="#2f3640" pattern="^#[0-9A-Fa-f]{6}$"
-                    title="Hex color code (e.g., #FF0000)">
+                <input type="text" id="font-color" class="hex-input color-picker-input" value="#2f3640"
+                    pattern="^#[0-9A-Fa-f]{6}$" title="Hex color code (e.g., #FF0000)" data-coloris>
             </div>
+        </div>
+
+        <div class="control-group">
+            <label for="stroke-color">Stroke:</label>
+            <div class="color-group">
+                <input type="text" id="stroke-color" class="hex-input color-picker-input" value="#ffffff"
+                    pattern="^#[0-9A-Fa-f]{6}$" title="Hex color code (e.g., #FFFFFF)" data-coloris>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="stroke-width">Stroke width:</label>
+            <input type="range" id="stroke-width" min="0" max="10" step="0.5" value="2">
+            <output id="stroke-width-value" for="stroke-width">2 px</output>
         </div>
 
         <div class="control-group">
@@ -130,12 +151,14 @@
         <div class="control-group">
             <label for="bg-color">Background:</label>
             <div class="color-group">
-                <div class="color-input-container">
-                    <input type="color" id="bg-color" value="#f5f6fa">
-                </div>
-                <input type="text" id="bg-color-hex" class="hex-input" value="#f5f6fa" pattern="^#[0-9A-Fa-f]{6}$"
-                    title="Hex color code (e.g., #FF0000)">
+                <input type="text" id="bg-color" class="hex-input color-picker-input" value="#f5f6fa"
+                    pattern="^#[0-9A-Fa-f]{6}$" title="Hex color code (e.g., #FF0000)" data-coloris>
             </div>
+        </div>
+
+        <div class="control-group transparent-control">
+            <label for="transparent-background">Transparent</label>
+            <input type="checkbox" id="transparent-background">
         </div>
 
        
@@ -208,6 +231,8 @@
 
     </div>
     <div id="debug-info"></div>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@0.25.0/dist/coloris.min.js"></script>
     <script src="assets/script.js"></script>
 </body>
 

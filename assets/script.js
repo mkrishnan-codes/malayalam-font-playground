@@ -1,16 +1,26 @@
 // Get all control elements
 const fontSelect = document.getElementById('font-family');
+const fontPicker = typeof TomSelect === 'function' ? new TomSelect(fontSelect, {
+    create: false,
+    maxOptions: null,
+    searchField: ['text'],
+    selectOnTab: true,
+    closeAfterSelect: true,
+    placeholder: 'Search fonts...'
+}) : null;
 const fontSize = document.getElementById('font-size');
 const fontColor = document.getElementById('font-color');
 const fontWeight = document.getElementById('font-weight');
 const italicToggle = document.getElementById('italic-toggle');
 const bgColor = document.getElementById('bg-color');
+const strokeColor = document.getElementById('stroke-color');
+const strokeWidth = document.getElementById('stroke-width');
+const strokeWidthValue = document.getElementById('stroke-width-value');
+const transparentBackground = document.getElementById('transparent-background');
 const textDisplay = document.getElementById('text-display');
 const resetButton = document.getElementById('reset-button');
 const cursorToggle = document.getElementById('cursor-toggle');
 const screenshotButton = document.getElementById('screenshot-button');
-const fontColorHex = document.getElementById('font-color-hex');
-const bgColorHex = document.getElementById('bg-color-hex');
 
 // Get alignment buttons
 const alignLeft = document.getElementById('align-left');
@@ -34,8 +44,26 @@ const defaults = {
     color: '#2f3640',
     weight: 'normal',
     italic: false,
-    background: '#f5f6fa'
+    background: '#f5f6fa',
+    strokeColor: '#ffffff',
+    strokeWidth: '2',
+    transparentBackground: false
 };
+
+// Coloris adds a touch-friendly picker while keeping each hex field editable/pasteable.
+if (typeof Coloris === 'function') {
+    Coloris({
+        el: '.color-picker-input',
+        wrap: true,
+        theme: 'large',
+        themeMode: 'auto',
+        format: 'hex',
+        alpha: false,
+        closeButton: true,
+        clearButton: false,
+        swatches: ['#000000', '#ffffff', '#ff0000', '#ff9800', '#ffeb3b', '#4caf50', '#2196f3', '#9c27b0']
+    });
+}
 
 let isItalic = false;
 let isCursorVisible = true;
@@ -89,8 +117,13 @@ function updateTextStyle() {
     textDisplay.style.fontFamily = fontSelect.value;
     textDisplay.style.fontSize = fontSize.value + 'px';
     textDisplay.style.color = fontColor.value;
+    textDisplay.style.webkitTextFillColor = fontColor.value;
     textDisplay.style.fontWeight = fontWeight.value;
-    textDisplay.style.backgroundColor = bgColor.value;
+    textDisplay.style.backgroundColor = transparentBackground.checked ? 'transparent' : bgColor.value;
+    textDisplay.classList.toggle('transparent-background', transparentBackground.checked);
+    textDisplay.style.webkitTextStroke = `${strokeWidth.value}px ${strokeColor.value}`;
+    textDisplay.style.paintOrder = 'stroke fill';
+    strokeWidthValue.value = `${strokeWidth.value} px`;
     textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
 }
 
@@ -99,35 +132,18 @@ fontSelect.addEventListener('change', updateTextStyle);
 fontSize.addEventListener('input', updateTextStyle);
 fontWeight.addEventListener('change', updateTextStyle);
 
-fontColor.addEventListener('input', (e) => {
-    fontColorHex.value = e.target.value;
-    updateTextStyle();
-});
-
-bgColor.addEventListener('input', (e) => {
-    bgColorHex.value = e.target.value;
-    updateTextStyle();
-});
-
-// Add hex input listeners for font color
-fontColorHex.addEventListener('input', (e) => {
-    const hexValue = e.target.value;
-    // Validate hex color format
-    if (/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
-        fontColor.value = hexValue;
+function handleColorInput(event) {
+    if (/^#[0-9A-Fa-f]{6}$/.test(event.target.value)) {
         updateTextStyle();
     }
-});
+}
 
-// Add hex input listeners for background color
-bgColorHex.addEventListener('input', (e) => {
-    const hexValue = e.target.value;
-    // Validate hex color format
-    if (/^#[0-9A-Fa-f]{6}$/.test(hexValue)) {
-        bgColor.value = hexValue;
-        updateTextStyle();
-    }
-});
+fontColor.addEventListener('input', handleColorInput);
+bgColor.addEventListener('input', handleColorInput);
+strokeColor.addEventListener('input', handleColorInput);
+
+strokeWidth.addEventListener('input', updateTextStyle);
+transparentBackground.addEventListener('change', updateTextStyle);
 
 // Toggle italic
 italicToggle.addEventListener('click', () => {
@@ -218,12 +234,17 @@ textDisplay.style.minHeight = '100%'; // Ensure full height for alignment
 // Reset function
 resetButton.addEventListener('click', () => {
     fontSelect.value = defaults.font;
+    fontPicker?.setValue(defaults.font, true);
     fontSize.value = defaults.size;
     fontColor.value = defaults.color;
-    fontColorHex.value = defaults.color;
     fontWeight.value = defaults.weight;
     bgColor.value = defaults.background;
-    bgColorHex.value = defaults.background;
+    strokeColor.value = defaults.strokeColor;
+    strokeWidth.value = defaults.strokeWidth;
+    transparentBackground.checked = defaults.transparentBackground;
+    [fontColor, bgColor, strokeColor].forEach(colorInput => {
+        colorInput.dispatchEvent(new Event('input', { bubbles: true }));
+    });
     isItalic = false;
     italicToggle.classList.remove('active');
     textDisplay.classList.remove('hide-cursor');
@@ -237,10 +258,17 @@ resetButton.addEventListener('click', () => {
 screenshotButton.addEventListener('click', () => {
     const randomPrefix = Math.random().toString(36).substring(2, 6);
     html2canvas(textDisplay, {
-        backgroundColor: textDisplay.style.backgroundColor || '#ffffff',
+        backgroundColor: transparentBackground.checked ? null : bgColor.value,
         scale: 2.5,
         useCORS: true,
-        logging: false
+        logging: false,
+        onclone: (clonedDocument) => {
+            if (transparentBackground.checked) {
+                const clonedTextDisplay = clonedDocument.getElementById('text-display');
+                clonedTextDisplay.style.backgroundImage = 'none';
+                clonedTextDisplay.style.backgroundColor = 'transparent';
+            }
+        }
     }).then(canvas => {
         const link = document.createElement('a');
         link.download = `${randomPrefix}-malayalam-text.png`;
