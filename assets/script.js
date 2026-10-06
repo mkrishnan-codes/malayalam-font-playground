@@ -68,6 +68,44 @@ if (typeof Coloris === 'function') {
 
 let isItalic = false;
 let isCursorVisible = true;
+let currentCanvasMode = 'strip';
+
+const STORAGE_KEY = 'malayalam-font-playground-state-v1';
+
+function saveEditorState() {
+    const state = {
+        font: fontSelect.value,
+        size: fontSize.value,
+        color: fontColor.value,
+        weight: fontWeight.value,
+        italic: isItalic,
+        background: bgColor.value,
+        strokeColor: strokeColor.value,
+        strokeWidth: strokeWidth.value,
+        transparentBackground: transparentBackground.checked,
+        horizontalAlignment: textDisplay.style.textAlign || 'center',
+        verticalAlignment: textDisplay.style.justifyContent || 'center',
+        canvasMode: currentCanvasMode,
+        cursorVisible: isCursorVisible,
+        text: textDisplay.innerText
+    };
+
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+        console.warn('Could not save editor state:', error);
+    }
+}
+
+function loadEditorState() {
+    try {
+        const savedState = localStorage.getItem(STORAGE_KEY);
+        return savedState ? JSON.parse(savedState) : null;
+    } catch (error) {
+        console.warn('Could not load saved editor state:', error);
+        return null;
+    }
+}
 
 // Add PWA install prompt functionality
 let deferredPrompt;
@@ -126,6 +164,7 @@ function updateTextStyle() {
     textDisplay.style.paintOrder = 'stroke fill';
     strokeWidthValue.value = `${strokeWidth.value} px`;
     textDisplay.style.fontStyle = isItalic ? 'italic' : 'normal';
+    saveEditorState();
 }
 
 // Basic event listeners
@@ -159,6 +198,7 @@ cursorToggle.addEventListener('click', () => {
     textDisplay.classList.toggle('hide-cursor');
     cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
     cursorToggle.classList.toggle('active');
+    saveEditorState();
 });
 const ADJUSTED_OFFSET = 100;
 function setSizeByRatio(ratioWidth, ratioHeight) {
@@ -184,14 +224,20 @@ function setSizeMode(mode) {
             setSizeByRatio(1,0.25);
             break;
     }
+    currentCanvasMode = mode;
     updateActiveButton([squareButton, landscapeButton, portraitButton, stripButton],
         document.getElementById(`${mode}-button`));
 }
 
-squareButton.addEventListener('click', () => setSizeMode('square'));
-landscapeButton.addEventListener('click', () => setSizeMode('landscape'));
-portraitButton.addEventListener('click', () => setSizeMode('portrait'));
-stripButton.addEventListener('click', () => setSizeMode('strip'));
+function selectCanvasMode(mode) {
+    setSizeMode(mode);
+    saveEditorState();
+}
+
+squareButton.addEventListener('click', () => selectCanvasMode('square'));
+landscapeButton.addEventListener('click', () => selectCanvasMode('landscape'));
+portraitButton.addEventListener('click', () => selectCanvasMode('portrait'));
+stripButton.addEventListener('click', () => selectCanvasMode('strip'));
 
 // Alignment functions
 function updateActiveButton(buttons, activeButton) {
@@ -203,38 +249,46 @@ function updateActiveButton(buttons, activeButton) {
 alignLeft.addEventListener('click', () => {
     textDisplay.style.textAlign = 'left';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignLeft);
+    saveEditorState();
 });
 
 alignCenter.addEventListener('click', () => {
     textDisplay.style.textAlign = 'center';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
+    saveEditorState();
 });
 
 alignRight.addEventListener('click', () => {
     textDisplay.style.textAlign = 'right';
     updateActiveButton([alignLeft, alignCenter, alignRight], alignRight);
+    saveEditorState();
 });
 
 // Vertical alignment
 alignTop.addEventListener('click', () => {
     textDisplay.style.justifyContent = 'flex-start';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignTop);
+    saveEditorState();
 });
 
 alignMiddle.addEventListener('click', () => {
     textDisplay.style.justifyContent = 'center';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
+    saveEditorState();
 });
 
 alignBottom.addEventListener('click', () => {
     textDisplay.style.justifyContent = 'flex-end';
     updateActiveButton([alignTop, alignMiddle, alignBottom], alignBottom);
+    saveEditorState();
 });
 
 // Make sure text display has flex properties
 textDisplay.style.display = 'flex';
 textDisplay.style.flexDirection = 'column';
 textDisplay.style.minHeight = '100%'; // Ensure full height for alignment
+textDisplay.style.whiteSpace = 'pre-wrap';
+textDisplay.addEventListener('input', saveEditorState);
 
 // Reset function
 resetButton.addEventListener('click', () => {
@@ -288,14 +342,64 @@ screenshotButton.addEventListener('click', () => {
 
 // Set initial alignment states
 window.addEventListener('load', () => {
-    setSizeMode('strip');
+    const savedState = loadEditorState();
+
+    if (savedState && typeof savedState === 'object') {
+        const savedFontExists = Array.from(fontSelect.options)
+            .some(option => option.value === savedState.font);
+        if (savedFontExists) {
+            fontSelect.value = savedState.font;
+            fontPicker?.setValue(savedState.font, true);
+        }
+        if (Number(savedState.size) >= 8 && Number(savedState.size) <= 200) {
+            fontSize.value = savedState.size;
+        }
+        if (/^#[0-9A-Fa-f]{6}$/.test(savedState.color)) fontColor.value = savedState.color;
+        if (savedState.weight === 'normal' || savedState.weight === 'bold') {
+            fontWeight.value = savedState.weight;
+        }
+        if (/^#[0-9A-Fa-f]{6}$/.test(savedState.background)) bgColor.value = savedState.background;
+        if (/^#[0-9A-Fa-f]{6}$/.test(savedState.strokeColor)) strokeColor.value = savedState.strokeColor;
+        if (Number(savedState.strokeWidth) >= 0 && Number(savedState.strokeWidth) <= 10) {
+            strokeWidth.value = savedState.strokeWidth;
+        }
+        if (typeof savedState.transparentBackground === 'boolean') {
+            transparentBackground.checked = savedState.transparentBackground;
+        }
+        if (typeof savedState.italic === 'boolean') {
+            isItalic = savedState.italic;
+            italicToggle.classList.toggle('active', isItalic);
+        }
+        if (typeof savedState.cursorVisible === 'boolean') {
+            isCursorVisible = savedState.cursorVisible;
+            textDisplay.classList.toggle('hide-cursor', !isCursorVisible);
+            cursorToggle.textContent = isCursorVisible ? 'Hide Cursor' : 'Show Cursor';
+            cursorToggle.classList.toggle('active', !isCursorVisible);
+        }
+        if (typeof savedState.text === 'string') textDisplay.innerText = savedState.text;
+
+        [fontColor, strokeColor, bgColor].forEach(colorInput => {
+            colorInput.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+    }
+
+    const horizontalAlignment = ['left', 'center', 'right'].includes(savedState?.horizontalAlignment)
+        ? savedState.horizontalAlignment : 'center';
+    const verticalAlignment = ['flex-start', 'center', 'flex-end'].includes(savedState?.verticalAlignment)
+        ? savedState.verticalAlignment : 'center';
+    const canvasMode = ['square', 'landscape', 'portrait', 'strip'].includes(savedState?.canvasMode)
+        ? savedState.canvasMode : 'strip';
+
+    setSizeMode(canvasMode);
+    textDisplay.style.textAlign = horizontalAlignment;
+    updateActiveButton(
+        [alignLeft, alignCenter, alignRight],
+        { left: alignLeft, center: alignCenter, right: alignRight }[horizontalAlignment]
+    );
+    textDisplay.style.justifyContent = verticalAlignment;
+    updateActiveButton(
+        [alignTop, alignMiddle, alignBottom],
+        { 'flex-start': alignTop, center: alignMiddle, 'flex-end': alignBottom }[verticalAlignment]
+    );
     updateTextStyle();
-    
-    // Set default horizontal alignment (center) and highlight the button
-    textDisplay.style.textAlign = 'center';
-    alignCenter.classList.add('active');
-    
-    // Set default vertical alignment (middle) and highlight the button
-    textDisplay.style.justifyContent = 'center';
-    alignMiddle.classList.add('active');
 });

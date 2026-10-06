@@ -13,6 +13,7 @@ A web-based tool for experimenting with Malayalam fonts and creating stylized te
   - Italic styling
   - Text alignment (horizontal and vertical)
 - Export text as a PNG image, with transparent-background support
+- Automatically save the current text and styling in the browser for your next visit
 - Cursor visibility toggle
 - Mobile-responsive design
 
