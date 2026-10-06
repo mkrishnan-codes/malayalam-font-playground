@@ -34,6 +34,7 @@ const alignBottom = document.getElementById('align-bottom');
 const squareButton = document.getElementById('square-button');
 const landscapeButton = document.getElementById('landscape-button');
 const portraitButton = document.getElementById('portrait-button');
+const stripButton = document.getElementById('strip-button');
 
 const debugInfo = document.getElementById('debug-info');
 
@@ -179,14 +180,18 @@ function setSizeMode(mode) {
         case 'portrait':
             setSizeByRatio(1,1.78);
             break;
+        case 'strip':
+            setSizeByRatio(1,0.25);
+            break;
     }
-    updateActiveButton([squareButton, landscapeButton, portraitButton], 
+    updateActiveButton([squareButton, landscapeButton, portraitButton, stripButton],
         document.getElementById(`${mode}-button`));
 }
 
 squareButton.addEventListener('click', () => setSizeMode('square'));
 landscapeButton.addEventListener('click', () => setSizeMode('landscape'));
 portraitButton.addEventListener('click', () => setSizeMode('portrait'));
+stripButton.addEventListener('click', () => setSizeMode('strip'));
 
 // Alignment functions
 function updateActiveButton(buttons, activeButton) {
@@ -250,7 +255,11 @@ resetButton.addEventListener('click', () => {
     textDisplay.classList.remove('hide-cursor');
     cursorToggle.textContent = 'Hide Cursor';
     cursorToggle.classList.remove('active');
-    setSizeMode('square');
+    setSizeMode('strip');
+    textDisplay.style.textAlign = 'center';
+    updateActiveButton([alignLeft, alignCenter, alignRight], alignCenter);
+    textDisplay.style.justifyContent = 'center';
+    updateActiveButton([alignTop, alignMiddle, alignBottom], alignMiddle);
     updateTextStyle();
 });
 
@@ -279,14 +288,14 @@ screenshotButton.addEventListener('click', () => {
 
 // Set initial alignment states
 window.addEventListener('load', () => {
-    setSizeMode('square');
+    setSizeMode('strip');
     updateTextStyle();
     
-    // Set default horizontal alignment (left) and highlight the button
-    textDisplay.style.textAlign = 'left';
-    alignLeft.classList.add('active');
+    // Set default horizontal alignment (center) and highlight the button
+    textDisplay.style.textAlign = 'center';
+    alignCenter.classList.add('active');
     
-    // Set default vertical alignment (top) and highlight the button
-    textDisplay.style.justifyContent = 'flex-start';
-    alignTop.classList.add('active');
+    // Set default vertical alignment (middle) and highlight the button
+    textDisplay.style.justifyContent = 'center';
+    alignMiddle.classList.add('active');
 });

@@ -1,6 +1,6 @@
 # Malayalam Font Playground 🎨
 
-A web-based tool for experimenting with Malayalam fonts and creating stylized text designs. Try it live at [malayalam.mandevs.in](https://malayalam.mandevs.in)
+A web-based tool for experimenting with Malayalam fonts and creating stylized text designs. Try it live at [malayalam.manuk.win](https://malayalam.manuk.win)
 
 ## Features ✨
 
